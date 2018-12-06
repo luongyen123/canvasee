@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
+use App\Media;
 use JWTFactory;
 use JWTAuth;
 use Validator;
 use Response;
 use Auth;
+use Storage;
 
 class JWTAuthController extends Controller
 {
@@ -72,5 +74,51 @@ class JWTAuthController extends Controller
         return response([
             'status' => 'success'
         ]);
+    }
+    public function upload(Request $request)
+    {
+        $dates = getdate();
+        $date =$dates['mon'].'-'.$dates['year'];
+        
+        $user=Auth::user()->name;
+        $files = $request->file('uploads');
+        $path = 'upload/'.$user.'/';
+        $item=[];
+        $tmp_item =[];
+        $ids=[];
+        if(!empty($files)) {
+            foreach($files as $file) {
+                
+                $name = $file->getClientOriginalName();
+                $type = $file->getMimeType();
+                $duoifile = explode('/',$type);
+                $file->move($path.$duoifile[0].'/'.$date, $name);
+
+                $media = Media::create([
+                    'filename' => $name,
+                    'mimefile' => $path.$duoifile[0].'/'.$date.'/'.$name
+                ]);
+                $id = $media->id;
+                $tmp_item['id'] = $id;
+                $tmp_item['ten'] = $name;
+                $tmp_item['loai'] = $type;
+                $tmp_item['duongdan'] = $path.$duoifile[0].'/'.$date.'/'.$name;
+                array_push($item,$tmp_item);
+                array_push($ids,$id);
+
+            }
+            // $info = $item;
+            return response([
+                'status'=>'success',
+                'data' => $item,
+                'id_media'=>$ids
+            ],200);
+
+        }
+        else {
+            return response([
+                'status'=>'false'
+            ],400);
+        }
     }
 }

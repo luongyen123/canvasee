@@ -20,6 +20,8 @@ use Illuminate\Http\Request;
 Route::group(['middleware' => 'jwt.auth'], function(){
     Route::get('auth/user', 'JWTAuthController@user');
     Route::get('auth/logout', 'JWTAuthController@logout');
+	Route::post('/upload', [ 'uses' => 'JWTAuthController@upload']);
+
 });
 
 Route::middleware('jwt.refresh')->get('/token/refresh', 'JWTAuthController@refresh');
