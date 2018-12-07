@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Group;
+use App\Feed;
 use Illuminate\Http\Request;
+use App\Http\Resources\Group\GroupResource;
 
 class GroupController extends Controller
 {
@@ -19,7 +21,7 @@ class GroupController extends Controller
 
     public function index()
     {
-        //
+        return GroupResource::collection(Group::all());
     }
 
     /**
@@ -51,7 +53,7 @@ class GroupController extends Controller
      */
     public function show(Group $group)
     {
-        //
+        return new GroupResource($group); 
     }
 
     /**

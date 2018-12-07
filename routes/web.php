@@ -16,6 +16,12 @@ Route::get('/', function () {
 });
 
 Route::Resource('/groups','GroupController');
+
+Route::group(['prefix'=>'groups'],function(){
+	Route::Resource('/{group}/feeds','FeedController');
+	Route::Resource('/{group}/members','GroupController');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
