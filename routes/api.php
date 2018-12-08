@@ -20,9 +20,9 @@ use Illuminate\Http\Request;
 Route::group(['middleware' => 'jwt.auth'], function(){
     Route::get('auth/user', 'JWTAuthController@user');
     Route::get('auth/logout', 'JWTAuthController@logout');
-	Route::post('/upload_image', [ 'uses' => 'JWTAuthController@upload_image']);
-	Route::post('/upload_video', [ 'uses' => 'JWTAuthController@upload_video']);
-
+	Route::post('/upload_image', [ 'uses' => 'MediaController@upload_image']);
+	Route::post('/upload_video', [ 'uses' => 'MediaController@upload_video']);
+	Route::post('upload_url', [ 'uses' => 'MediaController@upload_url']);
 });
 
 Route::middleware('jwt.refresh')->get('/token/refresh', 'JWTAuthController@refresh');
