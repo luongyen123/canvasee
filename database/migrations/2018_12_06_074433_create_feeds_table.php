@@ -18,6 +18,7 @@ class CreateFeedsTable extends Migration
             $table->string('title');
             $table->string('content',255);
             $table->integer('user_id');
+            $table->integer('group_id');
             $table->string('likes');
             $table->string('shares');
             $table->string('comments');

@@ -4,6 +4,7 @@ namespace App\Http\Resources\Group;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+
 class GroupResource extends JsonResource
 {
     /**
@@ -16,9 +17,13 @@ class GroupResource extends JsonResource
     {
         return[
             'name'=>$this->name,
-            'members'=>$this->members,
-            'topics'=>$this->topics
+            'members'=>$this->members->count(),
+            'feed_number'=>$this->feeds->count(),
+            'href'=>[
+                'feeds'=>route('feeds.index',$this->id),
+                'members'=>route('members.index',$this->id)
+            ]
         ];
-        return parent::toArray($request);
+       
     }
 }
