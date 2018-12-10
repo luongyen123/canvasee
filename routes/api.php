@@ -22,6 +22,7 @@ Route::group(['middleware' => 'jwt.auth'], function(){
     Route::get('auth/logout', 'JWTAuthController@logout');
 	Route::post('/upload', [ 'uses' => 'JWTAuthController@upload']);
 
+	Route::get('/groups',['uses'=>'Api\GroupController@GroupByUser'])->name('group.byUser');
 });
 
 Route::middleware('jwt.refresh')->get('/token/refresh', 'JWTAuthController@refresh');

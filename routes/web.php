@@ -19,7 +19,7 @@ Route::Resource('/groups','GroupController');
 
 Route::group(['prefix'=>'groups'],function(){
 	Route::Resource('/{group}/feeds','FeedController');
-	Route::Resource('/{group}/members','GroupController');
+	Route::Resource('/{group}/members','GroupMemberController');
 });
 
 Auth::routes();
