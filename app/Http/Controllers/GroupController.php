@@ -21,7 +21,9 @@ class GroupController extends Controller
 
     public function index()
     {
-        return GroupResource::collection(Group::all());
+        $data=  Group::all();
+
+        return view('Group/index',compact('data'));
     }
 
     /**
@@ -89,4 +91,6 @@ class GroupController extends Controller
     {
         //
     }
+
+    
 }

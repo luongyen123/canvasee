@@ -22,7 +22,9 @@ Route::group(['middleware' => 'jwt.auth'], function(){
     Route::get('auth/logout', 'JWTAuthController@logout');
 	Route::post('/upload_image', [ 'uses' => 'MediaController@upload_image']);
 	Route::post('/upload_video', [ 'uses' => 'MediaController@upload_video']);
-	Route::post('upload_url', [ 'uses' => 'MediaController@upload_url']);
+	Route::post('upload_link', [ 'uses' => 'MediaController@upload_link']);
+	Route::get('/groups',['uses'=>'Api\GroupController@GroupByUser'])->name('group.byUser');
+
 });
 
 Route::middleware('jwt.refresh')->get('/token/refresh', 'JWTAuthController@refresh');
