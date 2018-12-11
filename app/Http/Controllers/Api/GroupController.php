@@ -14,6 +14,7 @@ class GroupController extends Controller
     public $group;
 
     public function __construct(){
+
     	$this->middleware('jwt.auth');
     }
 
@@ -29,14 +30,12 @@ class GroupController extends Controller
     	return false;
     }
 
+    // List group user follow
     public function GroupByUser(){
 
     	$user = Auth::user();
 
-    	$groups = Group::join('group_members','group_members.group_id','=','groups.id')
-    				->where('group_members.user_id','=',$user->id)
-    				->select('groups.name')
-    				->get();
+    	$groups = (new Group)->getGroupByUser($user->id);
 
     	return Response::json([
     	 	'group'=>$groups,
