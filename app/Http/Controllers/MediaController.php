@@ -18,7 +18,7 @@ class MediaController extends Controller
         return $dates['mon'].'-'.$dates['year'];
     }
 
-    private function save_image($tmp_id,$small,$type,$name,$path,$duoifile,$filepath,$type_img,$width,$height)
+    private function save_image($tmp_id,$small,$type,$name,$path,$file_format,$filepath,$type_img,$width,$height)
     {
     	$source = \Tinify\fromFile($filepath);
         $resized = $source->resize(array(
@@ -26,18 +26,18 @@ class MediaController extends Controller
             "width" => $width,
             "height" => $height
         ));  //fomart size
-        $path1 = $path.$duoifile[0].'/'.$this->getdate().'/';
+        $path1 = $path.$file_format[0].'/'.$this->getdate().'/';
         $resized->toFile(public_path($path1.$type_img.'_'.$name)); //luu file moi
 
         $media = Media::create([
             'filename' => $type_img.'_'.$name,
-            'mimefile' => $duoifile[0]
+            'mimefile' => $file_format[0]
         ]);//luu csdl
         $id = $media->id;
         $tmp_item['id'] = $id;
-        $tmp_item['ten'] = $type_img.'_'.$name;
-        $tmp_item['loai'] = $type;
-        $tmp_item['duongdan'] = $path.$duoifile[0].'/'.$this->getdate().'/'.$type_img.'/'.$type_img.'_'.$name;
+        $tmp_item['name'] = $type_img.'_'.$name;
+        $tmp_item['type'] = $type;
+        $tmp_item['path'] = $path.$file_format[0].'/'.$this->getdate().'/'.$type_img.'/'.$type_img.'_'.$name;
         array_push($tmp_id,$id);
         array_push($small,$tmp_item);
 
@@ -45,17 +45,17 @@ class MediaController extends Controller
         
     }
 
-    private function save_video($ids,$item,$name,$duoifile,$type,$path)
+    private function save_video($ids,$item,$name,$file_format,$type,$path)
     {
     	$media = Media::create([
             'filename' => $name,
-            'mimefile' => $duoifile[0]
+            'mimefile' => $file_format[0]
         ]);
         $id = $media->id;
         $tmp_item['id'] = $id;
-        $tmp_item['ten'] = $name;
-        $tmp_item['loai'] = $type;
-        $tmp_item['duongdan'] = $path.$duoifile[0].'/'.$this->getdate().'/'.$name;
+        $tmp_item['name'] = $name;
+        $tmp_item['type'] = $type;
+        $tmp_item['path'] = $path.$file_format[0].'/'.$this->getdate().'/'.$name;
         array_push($item,$tmp_item);
     	array_push($ids,$id); 
     	return $item;
@@ -79,25 +79,25 @@ class MediaController extends Controller
                 
                 $name = $file->getClientOriginalName(); //ten file
                 $type = $file->getMimeType();   //loại
-                $duoifile = explode('/',$type); 
+                $file_format = explode('/',$type); 
 
-                if ($duoifile[0] == 'image') {
-                    $file->move($path.$duoifile[0].'/'.$this->getdate().'/anhgoc', $name);
+                if ($file_format[0] == 'image') {
+                    $file->move($path.$file_format[0].'/'.$this->getdate().'/origin', $name);
                     
-                    $filepath = public_path($path.$duoifile[0].'/'.$this->getdate().'/anhgoc/'.$name);
+                    $filepath = public_path($path.$file_format[0].'/'.$this->getdate().'/origin/'.$name);
                     try {
                         $tmp_item=[];
                         $tmp_id=[];
                         \Tinify\setKey("pwGwqcG21J2K4SqX7pPjqhBWRT6n7j9w");
 
                         //small image
-                        $small = $this->save_image($tmp_id,$small,$type,$name,$path,$duoifile,$filepath,'small',64,96);
+                        $small = $this->save_image($tmp_id,$small,$type,$name,$path,$file_format,$filepath,'small',64,96);
                         
                         //medium image
-                        $medium = $this->save_image($tmp_id,$medium,$type,$name,$path,$duoifile,$filepath,'medium',117,176);
+                        $medium = $this->save_image($tmp_id,$medium,$type,$name,$path,$file_format,$filepath,'medium',117,176);
 
                         //large
-                        $large = $this->save_image($tmp_id,$large,$type,$name,$path,$duoifile,$filepath,'large',533,800);
+                        $large = $this->save_image($tmp_id,$large,$type,$name,$path,$file_format,$filepath,'large',533,800);
 
                     } catch(\Tinify\AccountException $e) {
                         // Verify your API key and account limit.
@@ -105,7 +105,7 @@ class MediaController extends Controller
                     }
                        
                     array_push($ids,$tmp_id);   
-                	File::delete($path.$duoifile[0].'/'.$this->getdate().'/anhgoc/'.$name);
+                	File::delete($path.$file_format[0].'/'.$this->getdate().'/origin/'.$name);
             	} else {
             		$err = '1 số file không phải ảnh';
             	}
@@ -161,10 +161,10 @@ class MediaController extends Controller
                 $name = $file->getClientOriginalName();
                 $type = $file->getMimeType();
                 if ($type == "video/x-flv" || $type == "video/mp4" || $type == "application/x-mpegURL" || $type == "video/MP2T" || $type == "video/3gpp" || $type == "video/quicktime" || $type == "video/x-msvideo" || $type == "video/x-ms-wmv") {
-                	$duoifile = explode('/',$type);
-	                $file->move($path.$duoifile[0].'/'.$this->getdate().'/', $name);
+                	$file_format = explode('/',$type);
+	                $file->move($path.$file_format[0].'/'.$this->getdate().'/', $name);
 
-	                $item =$this->save_video($ids,$item,$name,$duoifile,$type,$path);
+	                $item =$this->save_video($ids,$item,$name,$file_format,$type,$path);
 	                
                 }else {
                 	$err ='1 số file không phải video';

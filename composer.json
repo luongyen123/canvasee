@@ -13,7 +13,8 @@
         "laravel/tinker": "^1.0",
         "php-ffmpeg/php-ffmpeg": "^0.13.0",
         "tinify/tinify": "^1.5",
-        "tymon/jwt-auth": "^0.5.12"
+        "tymon/jwt-auth": "^0.5.12",
+        "unisharp/laravel-fileapi": "^1.0"
     },
     "require-dev": {
         "filp/whoops": "^2.0",

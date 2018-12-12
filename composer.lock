@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9eae084d2037260ff115cb9c3ba65d77",
+    "content-hash": "a81eda8625290202f7ab50bb7b1a5a0a",
     "packages": [
         {
             "name": "alchemy/binary-driver",
@@ -3439,6 +3439,53 @@
                 "tymon"
             ],
             "time": "2017-06-07T21:32:02+00:00"
+        },
+        {
+            "name": "unisharp/laravel-fileapi",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/UniSharp/laravel-fileapi.git",
+                "reference": "7f38fb73fe2b7295fb2cf508198f05b3b9dd646b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/UniSharp/laravel-fileapi/zipball/7f38fb73fe2b7295fb2cf508198f05b3b9dd646b",
+                "reference": "7f38fb73fe2b7295fb2cf508198f05b3b9dd646b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "illuminate/support": ">=5.0.0",
+                "league/flysystem": ">=1.0",
+                "php": ">=5.5.0",
+                "symfony/http-foundation": ">=2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Unisharp\\FileApi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "UniSharp Ltd. (Composer Package Maintainer)",
+                    "homepage": "http://www.unisharp.com"
+                }
+            ],
+            "description": "Laravel File API - Handle Files with Laravel Storage",
+            "keywords": [
+                "api",
+                "file",
+                "fileapi",
+                "laravel",
+                "storage"
+            ],
+            "time": "2017-11-14T02:42:59+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
