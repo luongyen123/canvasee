@@ -14,13 +14,15 @@ class MediaController extends Controller
 {
     private function getdate()
     {
+    	//date now
     	$dates = getdate();
         return $dates['mon'].'-'.$dates['year'];
     }
 
     private function save_image($tmp_id,$small,$type,$name,$path,$file_format,$filepath,$type_img,$width,$height)
     {
-    	$source = \Tinify\fromFile($filepath);
+
+    	$source = \Tinify\fromFile($filepath); 
         $resized = $source->resize(array(
             "method" => "fit",
             "width" => $width,
@@ -37,7 +39,7 @@ class MediaController extends Controller
         $tmp_item['id'] = $id;
         $tmp_item['name'] = $type_img.'_'.$name;
         $tmp_item['type'] = $type;
-        $tmp_item['path'] = $path.$file_format[0].'/'.$this->getdate().'/'.$type_img.'/'.$type_img.'_'.$name;
+        $tmp_item['path'] = $path.$file_format[0].'/'.$this->getdate().'/'.$type_img.'/'.$type_img.'_'.$name; // duong dan anh 
         array_push($tmp_id,$id);
         array_push($small,$tmp_item);
 
@@ -89,14 +91,14 @@ class MediaController extends Controller
                         $tmp_item=[];
                         $tmp_id=[];
                         \Tinify\setKey("pwGwqcG21J2K4SqX7pPjqhBWRT6n7j9w");
-
-                        //small image
-                        $small = $this->save_image($tmp_id,$small,$type,$name,$path,$file_format,$filepath,'small',64,96);
                         
-                        //medium image
+                        //save small image
+                        $small = $this->save_image($tmp_id,$small,$type,$name,$path,$file_format,$filepath,'small',64,96);
+                       
+                        //save medium image
                         $medium = $this->save_image($tmp_id,$medium,$type,$name,$path,$file_format,$filepath,'medium',117,176);
 
-                        //large
+                        //save large image
                         $large = $this->save_image($tmp_id,$large,$type,$name,$path,$file_format,$filepath,'large',533,800);
 
                     } catch(\Tinify\AccountException $e) {
@@ -104,7 +106,8 @@ class MediaController extends Controller
                         return redirect('images/create')->with('error', $e->getMessage());
                     }
                        
-                    array_push($ids,$tmp_id);   
+                    array_push($ids,$tmp_id); 
+                    // delete image /origin  
                 	File::delete($path.$file_format[0].'/'.$this->getdate().'/origin/'.$name);
             	} else {
             		$err = '1 số file không phải ảnh';
@@ -161,9 +164,9 @@ class MediaController extends Controller
                 $name = $file->getClientOriginalName();
                 $type = $file->getMimeType();
                 if ($type == "video/x-flv" || $type == "video/mp4" || $type == "application/x-mpegURL" || $type == "video/MP2T" || $type == "video/3gpp" || $type == "video/quicktime" || $type == "video/x-msvideo" || $type == "video/x-ms-wmv") {
-                	$file_format = explode('/',$type);
+                	$file_format = explode('/',$type); 
 	                $file->move($path.$file_format[0].'/'.$this->getdate().'/', $name);
-
+	                // save video
 	                $item =$this->save_video($ids,$item,$name,$file_format,$type,$path);
 	                
                 }else {
@@ -212,10 +215,12 @@ class MediaController extends Controller
         	$link_videos = explode(';',$link);
         	foreach ($link_videos as $link_video) {
         		$str_video = explode('=',$link_video);
+        		//save database
 	            $media = Media::create([
 	                'filename' => $str_video[1],
 	                'mimefile' => 'text'
 	            ]);
+	            //return data
 	            $id = $media->id;
 	            $tmp_item['id'] = $id;
 	            $tmp_item['ten'] = $str_video[1];
