@@ -21,12 +21,11 @@ class Group extends Model
     	return $this->hasMany(GroupMember::class);
     }
 
-    public function selectAll(){
-    	$data = DB::table('groups')
-    			->join('feeds','groups.id','=','feeds.group_id')
-    			->join('group_members','groups.id','=','group_members.group_id')
-    			->select('groups.name');
-
-    	return $data;
+    public function getGroupByUser($user_id){
+    	$groups = Group::join('group_members','group_members.group_id','=','groups.id')
+    				->where('group_members.user_id','=',$user_id)
+    				->select('groups.name')
+    				->get();
+    	return $groups;
     }
 }
