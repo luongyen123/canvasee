@@ -9,6 +9,7 @@ use DB;
 
 class GroupMember extends Model
 {
+    
     //
     public function group(){
     	return $this->belongsTo(Group::class);
@@ -20,13 +21,12 @@ class GroupMember extends Model
 
     public function checkFollow($group_id,$user_id){
 
-    	$checkFollow = DB::table('group_members')
-    					->select('*')
+    	$checkFollow = GroupMember::select('*')
     					->where('group_id',$group_id)
     					->where('user_id',$user_id)
-    					->get();
-    					
-    	return ((empty($checkFollow)) ? false : true);
+    					->first();
+    			
+    	 return $checkFollow;
 
     }
 }
