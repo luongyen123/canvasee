@@ -14,10 +14,11 @@
   <link rel="stylesheet" href="{{asset('/theme/bower_components/Ionicons/css/ionicons.min.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('/theme/dist/css/AdminLTE.min.css')}}">
- 
-  <link rel="stylesheet" href="{{asset('/theme/dist/css/skins/skin-blue.min.css')}}">
 
- 
+  <link rel="stylesheet" href="{{asset('/theme/dist/css/skins/skin-blue.min.css')}}">
+  <link rel="stylesheet" href="{{asset('css/style.css')}}">
+   <link rel='stylesheet' href='https://cdn.rawgit.com/brunodsgn/notifyme/master/assets/css/notifyme.css'>
+
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -150,7 +151,7 @@
                   <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
               </li>
              @else
-                
+
                  <li class="dropdown user user-menu">
                     <!-- Menu Toggle Button -->
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -199,14 +200,14 @@
                           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                               @csrf
                           </form>
-                          
+
                         </div>
                       </li>
                     </ul>
                   </li>
               @endguest
           <!-- User Account Menu -->
-         
+
           <!-- Control Sidebar Toggle Button -->
           <li>
             <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
@@ -284,7 +285,7 @@
   <footer class="main-footer">
     <!-- To the right -->
     <div class="pull-right hidden-xs">
-     
+
     </div>
     <!-- Default to the left -->
     <strong>Copyright &copy; 2018 <a href="#">Company</a>.</strong>G&G Blockchain Caimp

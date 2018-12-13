@@ -5,87 +5,80 @@ namespace App\Http\Controllers;
 use App\Feed;
 use Illuminate\Http\Request;
 
-class FeedController extends Controller
-{
+class FeedController extends Controller {
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+	public function __construct() {
+		$this->middleware('auth');
+	}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function index($idgroup) {
+		$feeds = (new Feed)->feedsgruop($idgroup);
+		return $feeds;
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function create() {
+		//
+	}
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Feed  $feed
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Feed $feed)
-    {
-        //
-    }
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function store(Request $request) {
+		//
+	}
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Feed  $feed
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Feed $feed)
-    {
-        //
-    }
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  \App\Feed  $feed
+	 * @return \Illuminate\Http\Response
+	 */
+	public function show(Feed $feed) {
+		//
+	}
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Feed  $feed
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Feed $feed)
-    {
-        //
-    }
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  \App\Feed  $feed
+	 * @return \Illuminate\Http\Response
+	 */
+	public function edit(Feed $idgroup, $feed) {
+		//
+	}
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Feed  $feed
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Feed $feed)
-    {
-        //
-    }
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  \App\Feed  $feed
+	 * @return \Illuminate\Http\Response
+	 */
+	public function update(Request $request, Feed $feed) {
+		//
+	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  \App\Feed  $feed
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy(Feed $idgroup, $feed) {
+		//
+	}
+
 }

@@ -2,30 +2,35 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Feed;
 use App\GroupMember;
-use DB;
+use Illuminate\Database\Eloquent\Model;
 
-class Group extends Model
-{
-    // public function topics(){
-    // 	return $this->hasMany('App\Topic');
-    // }
+class Group extends Model {
+	// public function topics(){
+	// 	return $this->hasMany('App\Topic');
+	// }
+	protected $fillable = ['id', 'name'];
+	public function feeds() {
+		return $this->hasMany(Feed::class);
+	}
 
-    public function feeds(){
-    	return $this->hasMany(Feed::class);
-    }
+	public function members() {
+		return $this->hasMany(GroupMember::class);
+	}
 
-    public function members(){
-    	return $this->hasMany(GroupMember::class);
-    }
+	public function getGroupByUser($user_id) {
+		$groups = Group::join('group_members', 'group_members.group_id', '=', 'groups.id')
+			->where('group_members.user_id', '=', $user_id)
+			->select('groups.name')
+			->get();
+		return $groups;
+	}
 
-    public function getGroupByUser($user_id){
-    	$groups = Group::join('group_members','group_members.group_id','=','groups.id')
-    				->where('group_members.user_id','=',$user_id)
-    				->select('groups.name')
-    				->get();
-    	return $groups;
-    }
+	// add group
+	public function addgroup($group) {
+		$group['name'] = $group['name_group'];
+		$groups = Group::create($group);
+		return $status = 'true';
+	}
 }
