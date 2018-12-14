@@ -22,8 +22,9 @@ Route::group(['prefix' => 'groups'], function () {
 	Route::Resource('/{group}/members', 'GroupMemberController');
 	Route::post('store', 'GroupController@store')->name('groups.store');
 	Route::get('destroy/{id}', 'GroupController@destroy')->name('groups.destroy');
+	Route::get('feed/destroy/{id}', 'FeedController@destroy')->name('feeds.destroy');
 });
-
+Route::get('feeduser', 'FeedController@feeduser')->name('feeduser');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

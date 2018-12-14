@@ -251,7 +251,7 @@
         <li class="header">MAIN</li>
         <!-- Optionally, you can add icons to the links -->
         <li class="active"><a href="{{route('groups.index')}}"><i class="fa fa-link"></i> <span>Group Manage</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>Feeds Manage</span></a></li>
+        <li><a href="{{route('feeduser')}}"><i class="fa fa-link"></i> <span>Feeds Manage</span></a></li>
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
             <span class="pull-right-container">

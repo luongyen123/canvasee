@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Feed;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FeedController extends Controller {
 
@@ -21,13 +22,20 @@ class FeedController extends Controller {
 		return $feeds;
 	}
 
+	//list feed by user
+	public function feeduser() {
+		$user_id = Auth::user()->id;
+		$feeduser = (new Feed)->feeduser($user_id);
+		return view('Feed/feeduser', compact('user_id', 'feeduser'));
+	}
 	/**
 	 * Show the form for creating a new resource.
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function create() {
-		//
+	public function create($idgroup) {
+
+		return view('Feed/create', compact('idgroup'));
 	}
 
 	/**
@@ -37,7 +45,6 @@ class FeedController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Request $request) {
-		//
 	}
 
 	/**
@@ -77,8 +84,12 @@ class FeedController extends Controller {
 	 * @param  \App\Feed  $feed
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy(Feed $idgroup, $feed) {
-		//
+	public function destroy($idfeed) {
+		$feed = Feed::find($idfeed);
+		$url = 'groups/' . $feed->group_id . '/feeds';
+		$feed->delete();
+
+		return redirect($url)->with(['flash_message' => 'Xoá thành công', 'flash_level' => 'success']);
 	}
 
 }

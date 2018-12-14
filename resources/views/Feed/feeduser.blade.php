@@ -7,10 +7,8 @@
 @endif
 <section class="content-header">
   <h1>
-  Feed in gruop : {{$group[$idgroup]}}
+  Feed by user
   </h1>
-
-  <button  id="" class="btn btn-success"><a style="color: #fff" href="{{ route('feeds.create',$idgroup) }}"><i class="fa fa-plus-circle" aria-hidden="true"> add feed</i></a></button>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
     <li><a href="#">Feed</a></li>
@@ -43,7 +41,7 @@
               </tr>
             </thead>
             <tbody>
-               @foreach($feeds as $value)
+               @foreach($feeduser as $value)
 
               <tr>
                 <td>{{$value->id}}</td>
