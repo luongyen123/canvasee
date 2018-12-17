@@ -35,6 +35,8 @@ Route::group(['middleware' => 'jwt.auth'], function(){
 	// User unfollow group
 	Route::post('/userUnfollow',['uses'=>'Api\GroupMemberController@followDenied'])->name('user.Unfollow');
 
+	Route::post('/chattingroom',['uses'=>'ChatRoomController@index']);
+
 });
 
 // Refesh token user login

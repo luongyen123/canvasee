@@ -37,7 +37,7 @@ class Group extends Model
 
     	foreach($this->users as $user){
     		if($user->id == $user_id){
-    			return true;
+    			return true;   
     		}
     	}
     }
