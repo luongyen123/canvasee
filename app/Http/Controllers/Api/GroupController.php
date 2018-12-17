@@ -6,7 +6,6 @@ use App\Group;
 use App\Http\Controllers\Controller;
 use Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Response;
 
 class GroupController extends Controller {
@@ -47,9 +46,8 @@ class GroupController extends Controller {
 	//list new feed
 	public function newfeed(Request $request) {
 		$hastag = $request->hastag;
-		$newfeed = DB::table('feeds')->select('feeds.*')->where('group_id', $hastag)->orderBy('created_at', 'desc')->take(3)->get();
-		return response::json([
-			'data' => $newfeed,
-		]);
+		$feed = (new Group)->getNewFeed($hastag);
+
+		return $feed;
 	}
 }

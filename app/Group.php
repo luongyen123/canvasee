@@ -5,6 +5,7 @@ namespace App;
 use App\Feed;
 use App\GroupMember;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Group extends Model {
 	// public function topics(){
@@ -53,6 +54,16 @@ class Group extends Model {
 				return true;
 			}
 		}
+	}
+
+	public function getNewFeed($hastag) {
+		$feed = DB::table('feeds')->join('users', 'users.id', 'feeds.user_id')->select('feeds.*', 'users.name', 'users.email')->where('group_id', $hastag)->orderBy('shares', 'desc')->orderBy('comments', 'desc')->orderBy('likes', 'desc');
+		$total = $feed->count();
+		$newfeed = $feed->take(2)->get();
+		return response([
+			'data' => $newfeed,
+			'total' => $total,
+		], 200);
 	}
 
 }
