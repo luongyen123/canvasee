@@ -60,10 +60,16 @@ class Group extends Model {
 		$feed = DB::table('feeds')->join('users', 'users.id', 'feeds.user_id')->select('feeds.*', 'users.name', 'users.email')->where('group_id', $hastag)->orderBy('shares', 'desc')->orderBy('comments', 'desc')->orderBy('likes', 'desc');
 		$total = $feed->count();
 		$newfeed = $feed->take(2)->get();
-		return response([
-			'data' => $newfeed,
-			'total' => $total,
-		], 200);
+		if ($total == 0) {
+			return response([
+				'status' => 'dữ liệu k tồn tại',
+			], 400);
+		} else {
+			return response([
+				'data' => $newfeed,
+				'total' => $total,
+			], 200);
+		}
 	}
 
 }

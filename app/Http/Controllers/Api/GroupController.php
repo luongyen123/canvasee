@@ -47,7 +47,6 @@ class GroupController extends Controller {
 	public function newfeed(Request $request) {
 		$hastag = $request->hastag;
 		$feed = (new Group)->getNewFeed($hastag);
-
 		return $feed;
 	}
 }
