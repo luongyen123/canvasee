@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Group;
 use App\Http\Resources\Group\GroupResource;
+use DB;
 use Illuminate\Http\Request;
 
 class GroupController extends Controller {

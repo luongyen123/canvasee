@@ -21,8 +21,10 @@ Route::group(['prefix' => 'groups'], function () {
 	Route::Resource('/{group}/feeds', 'FeedController');
 	Route::Resource('/{group}/members', 'GroupMemberController');
 	Route::post('store', 'GroupController@store')->name('groups.store');
+	Route::post('update', 'GroupController@update')->name('groups.update');
 	Route::get('destroy/{id}', 'GroupController@destroy')->name('groups.destroy');
 	Route::get('feed/destroy/{id}', 'FeedController@destroy')->name('feeds.destroy');
+	Route::get('member/destroy/{id}', 'GroupMemberController@destroy')->name('member.destroy');
 });
 Route::get('feeduser', 'FeedController@feeduser')->name('feeduser');
 Auth::routes();

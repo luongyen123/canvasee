@@ -7,13 +7,11 @@
 @endif
 <section class="content-header">
   <h1>
-  Feed in gruop : {{$group[$idgroup]}}
+  Member in gruop : {{$group[$idgroup]}}
   </h1>
-
-  {{-- <button  id="" class="btn btn-success"><a style="color: #fff" href="{{ route('feeds.create',$idgroup) }}"><i class="fa fa-plus-circle" aria-hidden="true"> add feed</i></a></button> --}}
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li><a href="#">Feed</a></li>
+    <li><a href="#">Member</a></li>
     <li class="active">Index</li>
   </ol>
 </section>
@@ -23,7 +21,7 @@
     <div class="col-xs-12">
       <div class="box">
         <div class="box-header">
-          <h3 class="box-title">List feed in gruop</h3>
+          <h3 class="box-title">List member in gruop</h3>
         </div>
         <!-- /.box-header -->
         <div class="box-body">
@@ -32,31 +30,17 @@
 
               <tr>
                 <th>ID</th>
-                <th>Title</th>
-                <th>Content</th>
-                <th>Likes</th>
-                <th>Shares</th>
-                <th>Comments</th>
-                <th>Notifications</th>
-                <th>Medias</th>
+                <th>User</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-               @foreach($feeds as $value)
-
+               @foreach($member as $value)
               <tr>
                 <td>{{$value->id}}</td>
-                <td>{{$value->title}}</td>
-                <td>{{$value->content}}</td>
-                <td>{{$value->likes}}</td>
-                <td>{{$value->shares}}</td>
-                <td>{{$value->comments}}</td>
-                <td>{{$value->notifications}}</td>
-                <td>{{$value->medias}}</td>
-
+                <td>{{$user[$value->user_id]}}</td>
                 <td>
-                  <a  class="btn btn-success" href="{{route('feeds.destroy',$value->id)}}"><i class="fa fa-times"></i></a>
+                  <a  class="btn btn-success" href="{{route('member.destroy',$value->id)}}"><i class="fa fa-times"></i></a>
                 </td>
               </tr>
             @endforeach
