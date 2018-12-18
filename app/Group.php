@@ -4,6 +4,7 @@ namespace App;
 
 use App\Feed;
 use App\GroupMember;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -72,4 +73,5 @@ class Group extends Model {
 		}
 	}
 
-}
+
+

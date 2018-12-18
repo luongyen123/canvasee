@@ -36,6 +36,8 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	Route::post('/newfeed', ['uses' => 'Api\GroupController@newfeed']);
 	Route::post('/change_password', ['uses' => 'JWTAuthController@change_password']);
 
+	Route::post('/chattingroom',['uses'=>'ChatRoomController@index']);
+
 });
 
 // Refesh token user login

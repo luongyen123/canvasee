@@ -20,3 +20,4 @@ class ChatRoom extends Model
     	return $this->belongsTo(Group::class);
     }
 }
+ 
