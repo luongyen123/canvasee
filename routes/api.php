@@ -34,6 +34,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	Route::post('/userUnfollow', ['uses' => 'Api\GroupMemberController@followDenied'])->name('user.Unfollow');
 	// featured hastag
 	Route::post('/newfeed', ['uses' => 'Api\GroupController@newfeed']);
+	Route::post('/change_password', ['uses' => 'JWTAuthController@change_password']);
 
 });
 
