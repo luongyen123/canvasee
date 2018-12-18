@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Group;
 use App\Http\Resources\Group\GroupResource;
 use Illuminate\Http\Request;
+use App\Events\GroupCreated;
 
 class GroupController extends Controller {
 	/**
@@ -37,9 +38,15 @@ class GroupController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Request $request) {
-		$group = $request->all();
-		$new = (new Group)->addgroup($group);
-		return $new;
+
+        $groups = Group::create( $request->all());
+		// $new = (new Group)->addgroup($group);
+
+        event(
+            $e = new GroupCreated($groups)
+        );
+
+		return 'true';
 	}
 
 	/**

@@ -144,7 +144,7 @@ $(function () {
           url:'groups/store',
           type:'post',
           data:{
-            name_group:name_group,
+            name:name_group,
             '_token': _token
           },
           success:function(data){

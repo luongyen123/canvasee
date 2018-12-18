@@ -6,7 +6,7 @@ use App\Feed;
 use App\GroupMember;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+use DB;
 
 class Group extends Model {
 	// public function topics(){
@@ -40,13 +40,6 @@ class Group extends Model {
 		return $this->belongsToMany(User::class)->withTimestamps();
 	}
 
-	// public function getGroupByUser($user_id){
-	// 	$groups = Group::join('group_members','group_members.group_id','=','groups.id')
-	// 				->where('group_members.user_id','=',$user_id)
-	// 				->select('groups.name')
-	// 				->get();
-	// 	return $groups;
-	// }
 
 	public function hasUser($user_id) {
 
@@ -72,6 +65,7 @@ class Group extends Model {
 			], 200);
 		}
 	}
+}
 
 
 
