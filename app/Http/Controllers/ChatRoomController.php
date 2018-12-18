@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ChatRoom;
 use Illuminate\Http\Request;
+use Redis;
 
 class ChatRoomController extends Controller
 {
@@ -36,6 +37,18 @@ class ChatRoomController extends Controller
     public function store(Request $request)
     {
         //
+        $user_id = Auth::user()->id;
+        $group_id = $request->group_id;
+        $message =$request->chat;
+
+        $reponse = [$message,$user_id,$group_id];
+
+        $redis = LRedis::connection();
+
+        $redis->publish('message',json_encode($reponse));
+
+        return reponse()->json($reponse,200);
+
     }
 
     /**
