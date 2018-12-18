@@ -1,16 +1,14 @@
-var io = require('socket.io')(6000);
-
-console.log("Connected to port 6000");
-
-io.on("error",function(socket){
-	console.log("error");
-});
+var io = require('socket.io')(6001);
 
 io.on("connection",function(socket){
 
-	console.log("Co nguoi vua ket noi");
+	console.log("Connected");
 
-	socket.emit("wellcome","Hello");
+	socket.on("senChatToServer",function(message){
+		console.log(message);
+		io.sockets.emit("serverChatToClient",message);
+	})
+	
 });
 
 var Redis = require('ioredis');

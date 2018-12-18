@@ -36,7 +36,15 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	Route::post('/newfeed', ['uses' => 'Api\GroupController@newfeed']);
 	Route::post('/change_password', ['uses' => 'JWTAuthController@change_password']);
 
-	Route::post('/chattingroom',['uses'=>'ChatRoomController@index']);
+	Route::post('/chattingroom',['uses'=>'ChatRoomController@store']);
+
+	/*Private message url*/
+
+	Route::post('get-private-message-notifications','PrivateMessageController@getUserNotifications');
+	Route::post('get-private-messages','PrivateMessageController@getPrivateMessages');
+	Route::post('get-private-message','PrivateMessageController@getPrivateMessageById');
+	Route::post('get-private-messages-sent','PrivateMessageController@getPrivateMessageSent');
+	Route::post('sen-private-message','PrivateMessageController@sendPrivateMessage');
 
 });
 
