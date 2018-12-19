@@ -42,4 +42,8 @@ class GroupCreated
         
         return $channels;
     }
+
+    public function broadcastAs(){
+        return 'message';
+    }
 }

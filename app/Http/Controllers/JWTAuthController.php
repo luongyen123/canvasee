@@ -6,7 +6,7 @@ use App\Media;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use DB;
 use JWTAuth;
 use Response;
 use Validator;
