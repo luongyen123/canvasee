@@ -34,7 +34,8 @@ class NewMessage
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('groups.' .$this->converstation->group->id);
+        // return new PrivateChannel('groups.' .$this->converstation->group->id);
+        return ['groups'];
     }
 
     public function broadcastWith(){
@@ -45,5 +46,9 @@ class NewMessage
                 'name'=>$this->converstation->user->name
             ]
         ];
+    }
+
+    public function broadcastAs(){
+        return 'message';
     }
 }

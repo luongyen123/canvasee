@@ -28,3 +28,4 @@ Route::get('feeduser', 'FeedController@feeduser')->name('feeduser');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/send-message', 'ChatRoomController@index');
