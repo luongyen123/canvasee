@@ -5,14 +5,15 @@ use App\Http\Controllers\Controller;
 use App\Media;
 use App\User;
 use Auth;
-use Illuminate\Http\Request;
 use DB;
+use Illuminate\Http\Request;
 use JWTAuth;
 use Response;
 use Validator;
 
 class JWTAuthController extends Controller {
 	public function register(Request $request) {
+
 		$validator = Validator::make($request->all(), [
 			'email' => 'required|string|email|max:255|unique:users',
 			'name' => 'required',
@@ -21,11 +22,18 @@ class JWTAuthController extends Controller {
 		if ($validator->fails()) {
 			return response()->json($validator->errors());
 		}
-		User::create([
+		$newuser = User::create([
 			'name' => $request->get('name'),
 			'email' => $request->get('email'),
 			'password' => bcrypt($request->get('password')),
 		]);
+		$location = DB::table('users_locations')->insert([
+			'user_id' => $newuser->id,
+			'city_id' => '1',
+			'latitude' => $request->get('lat'),
+			'longitude' => $request->get('lng'),
+		]);
+		return $location;
 		$user = User::first();
 		$token = JWTAuth::fromUser($user);
 

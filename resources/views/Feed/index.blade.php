@@ -81,6 +81,9 @@
 <script src="{{asset('/theme/bower_components/fastclick/lib/fastclick.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{asset('/theme/dist/js/demo.js')}}"></script>
+{{-- <script src="http://code.jquery.com/jquery-1.10.2.min.js" type="text/javascript"></script> --}}
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false" type="text/javascript"></script>
+
 <script>
 $(function () {
 $('#example1').DataTable()
@@ -93,5 +96,7 @@ $('#example2').DataTable({
 'autoWidth'   : false
 })
 })
+
+
 </script>
 @endsection

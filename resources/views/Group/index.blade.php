@@ -6,6 +6,7 @@
     </div>
 @endif
 <section class="content-header">
+<p id="toado"></p>
   <h1>
   Group Admin
   <small> Hashtag</small>
@@ -121,7 +122,9 @@
 <!-- AdminLTE App -->
 <script src="{{asset('/theme/dist/js/demo.js')}}"></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js'></script>
+
 <script>
+
 $(function () {
   $('#example1').DataTable()
   $('#example2').DataTable({
@@ -201,5 +204,8 @@ $(function () {
     });
 
 });
+
+
+
 </script>
 @endsection

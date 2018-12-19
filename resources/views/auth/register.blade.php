@@ -44,6 +44,8 @@
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+                                <input id="lat" type="hidden" class="form-control" name="lat" required>
+                                <input id="lng" type="hidden" class="form-control " name="lng" required>
 
                                 @if ($errors->has('password'))
                                     <span class="invalid-feedback" role="alert">
@@ -74,4 +76,36 @@
         </div>
     </div>
 </div>
+@endsection
+@section('js')
+<script src="{{asset('/theme/bower_components/jquery/dist/jquery.min.js')}}"></script>
+<script src="//maps.googleapis.com/maps/api/js?key=AIzaSyAXXK6payVxC8Rwi7flykuz2IBl2SkSOxg" async=""defer="defer" type="text/javascript"></script>
+{{-- <script src="https://maps.google.com/maps/api/js?sensor=false"></script> --}}
+    <script type="text/javascript">
+        // lấy vi trí hiện tại
+        $(document).ready(function() {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(geo_success,geo_error);
+          } else {
+            alert('Rất tiếc trình duyệt của bạn không hỗ trợ chia sẻ vị trí vệ tinh');
+          }
+        });
+
+        window.app_info = {};
+
+        function geo_success(pos) {
+            var coord = pos.coords;
+            window.app_info.myLng = coord.longitude;
+            window.app_info.myLat  = coord.latitude;
+            console.log(window.app_info.myLat);
+            console.log(window.app_info.myLng);
+            $('#lat').val(window.app_info.myLat);
+            $('#lng').val(window.app_info.myLng);
+        }
+
+        function geo_error() {
+          //hiển thị thông báo lỗi ở đây
+        }
+
+    </script>
 @endsection
