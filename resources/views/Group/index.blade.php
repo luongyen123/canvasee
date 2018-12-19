@@ -47,7 +47,7 @@
                 <td>{{$value->name}}</td>
                 <td>{{$value->feeds->count()}}</td>
                 <td>{{$value->members->count()}}</td>
-                <td><a href="{{route('feeds.index',$value->id)}}">Members</a></td>
+                <td><a href="{{route('feeds.index',$value->id)}}">Feeds</a></td>
                 <td><a href="{{route('members.index',$value->id)}}">Follwing</a></td>
                 <td>
                   <a class="btn btn-primary edit_group" idgroup='{{$value->id}}' name="{{$value->name}}" data-toggle="modal" data-target="#editModal" href=""><i class="fa fa-edit"></i></a>
@@ -103,7 +103,7 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="" id="" class="btn btn-success">Save</button>
+          <button type="" id="editgroup" class="btn btn-success">Save</button>
         </div>
       </div>
 
@@ -140,6 +140,7 @@ $(function () {
 
         var name_group = $('#name_group').val();
         var _token = $('input#_token').val();
+
         $.ajax({
           url:'groups/store',
           type:'post',
@@ -165,30 +166,38 @@ $(function () {
   $(document).on('click', '.edit_group', function (event) {
       var idgroup = $(this).attr('idgroup');
       var name_group = $(this).attr('name');
+      var editname = $('#editname').val(name_group);
 
-      $('#editname').val(name_group);
-      var editname = $('editname').val();
+      $('#editname').on('change',function(){
+        editname = $('#editname').val();
+      });
+
 
       var _token = $('input#_token').val();
-      $.ajax({
-        url:'groups/update',
-        type:'post',
-        data:{
-          idgroup:idgroup,
-          editname:editname,
-          '_token': _token
-        },
-        success:function(data){
-          console.log(data);
-          if (data.trim() == 'true') {
-            window.location.href = 'groups';
-            $.notify("sửa group thành công", "success");
+      console.log(idgroup);
+      console.log(editname);
+      $('#editgroup').on('click',function(){
+        console.log(editname);
+        $.ajax({
+          url:'groups/update',
+          type:'post',
+          data:{
+            idgroup:idgroup,
+            editname:editname,
+            '_token': _token
+          },
+          success:function(data){
+            console.log(data);
+            if (data.trim() == 'true') {
+              window.location.href = 'groups';
+              $.notify("sửa group thành công", "success");
+            }
+          },
+          error: function(err){
+            console.log(err);
           }
-        },
-        error: function(err){
-          console.log(err);
-        }
-      })
+        })
+      });
     });
 
 });
