@@ -34,10 +34,14 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	Route::post('/userUnfollow', ['uses' => 'Api\GroupMemberController@followDenied'])->name('user.Unfollow');
 	// featured hastag
 	Route::post('/newfeed', ['uses' => 'Api\GroupController@newfeed']);
+	//change password
 	Route::post('/change_password', ['uses' => 'JWTAuthController@change_password']);
 
 	Route::post('/chattingroom',['uses'=>'ChatRoomController@store']);
-
+	//get ip client
+	Route::post('/getIP',['uses'=>'JWTAuthController@getIP']);
+	//related hastag
+	Route::post('/related',['uses'=>'Api\GroupController@related']);
 	/*Private message url*/
 
 	Route::post('get-private-message-notifications','PrivateMessageController@getUserNotifications');

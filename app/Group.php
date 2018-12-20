@@ -6,6 +6,7 @@ use App\Feed;
 use App\GroupMember;
 use DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Response;
 
 class Group extends Model {
 	// public function topics(){
@@ -47,9 +48,15 @@ class Group extends Model {
 			}
 		}
 	}
-
+//list new feed
 	public function getNewFeed($hastag) {
-		$feed = DB::table('feeds')->join('users', 'users.id', 'feeds.user_id')->select('feeds.*', 'users.name', 'users.email')->where('group_id', $hastag)->orderBy('shares', 'desc')->orderBy('comments', 'desc')->orderBy('likes', 'desc');
+		$feed = DB::table('feeds')->join('users', 'users.id', 'feeds.user_id')
+			->select('feeds.*', 'users.name', 'users.email')
+			->where('group_id', $hastag)
+			->orderBy('shares', 'desc')
+			->orderBy('comments', 'desc')
+			->orderBy('likes', 'desc');
+
 		$total = $feed->count();
 		$newfeed = $feed->take(2)->get();
 		if ($total == 0) {
@@ -62,5 +69,28 @@ class Group extends Model {
 				'total' => $total,
 			], 200);
 		}
+	}
+//list related hasgtag
+	public function related($user_id)
+	{
+		$location = Userlocation::select('latitude','longitude')->where('user_id',$user_id)->get();
+		$location = json_decode($location,true);
+
+		$longitude1 = $location[0]['longitude'];
+		$latitude1 = $location[0]['latitude'];
+
+		//lay group dua theo vi tri ban kinh 5 dặm
+		$longitude2 = (float)$longitude1 + 0.05619;
+		$latitude2 = (float)$latitude1  + 0.05619;
+
+		$sql = "SELECT groups.name ,users_locations.latitude, users_locations.longitude,users_locations.user_id
+			 FROM group_members JOIN groups ON group_members.group_id = groups.id
+			 JOIN users_locations ON users_locations.user_id = group_members.user_id
+			 WHERE users_locations.latitude BETWEEN ".$latitude1." AND ".$latitude2."
+			  	and users_locations.longitude BETWEEN ".$longitude1." and ".$longitude2."
+			 AND NOT EXISTS (SELECT group_members.* FROM group_members WHERE users_locations.user_id = ".$user_id.")";
+
+		$related = DB::select($sql);
+		return Response::json($related);
 	}
 }

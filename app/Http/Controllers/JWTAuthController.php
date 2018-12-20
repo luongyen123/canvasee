@@ -10,9 +10,13 @@ use Illuminate\Http\Request;
 use JWTAuth;
 use Response;
 use Validator;
+use App\Userlocation;
+use App\Cities;
+use  App\Countries;
 
 class JWTAuthController extends Controller {
 	public function register(Request $request) {
+		$clientIP = \Request::getClientIp(true);
 
 		$validator = Validator::make($request->all(), [
 			'email' => 'required|string|email|max:255|unique:users',
@@ -27,15 +31,44 @@ class JWTAuthController extends Controller {
 			'email' => $request->get('email'),
 			'password' => bcrypt($request->get('password')),
 		]);
-		$location = DB::table('users_locations')->insert([
-			'user_id' => $newuser->id,
-			'city_id' => '1',
-			'latitude' => $request->get('lat'),
-			'longitude' => $request->get('lng'),
-		]);
-		return $location;
+
 		$user = User::first();
 		$token = JWTAuth::fromUser($user);
+
+		//lay ip hien tai
+		$url = 'http://api.ipstack.com/' . $clientIP . '?access_key=3982a4c2a2157583fc9e8256a4ad8f97&format=1';
+		$ch = curl_init($url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+		$result = curl_exec($ch);
+		$location = json_decode($result);
+
+		$country_name = ($location->country_name != null ? $location->country_name : 'null');
+		$zip = ($location->zip != null ? $location->zip : 'null');
+		$country_code = ($location->country_code != null ? $location->country_code : 'null');
+		$city = ($location->city != null ? $location->city : 'null');
+		$latitude = ($location->latitude != null ? $location->latitude : 'null');
+		$longitude = ($location->longitude != null ? $location->longitude : 'null');
+
+		// save country
+		$country = Countries::create([
+			'name'=>$country_name,
+			'code'=>$zip,
+			'short_name'=>$country_code
+		]);
+		// save city
+		$city = Cities::create([
+			'country_id'=>$country->id,
+			'name'=>$city
+		]);
+		// save user location
+		$userlocation = Userlocation::create([
+			'user_id'=>$newuser->id,
+			'city_id'=>$city->id,
+			'latitude'=>$latitude,
+			'longitude'=>$longitude
+		]);
+		curl_close($ch);
 
 		return Response::json(compact('token'));
 	}
@@ -131,5 +164,43 @@ class JWTAuthController extends Controller {
 		return response::json([
 			'status' => 'success',
 		], 200);
+	}
+
+	public function getIP(Request $request) {
+		//lay ip hien tai
+		$url = 'http://api.ipstack.com/' . $request->clientIP . '?access_key=3982a4c2a2157583fc9e8256a4ad8f97&format=1';
+		$ch = curl_init($url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+		$result = curl_exec($ch);
+		$location = json_decode($result);
+
+		$country_name = ($location->country_name != null ? $location->country_name : 'null');
+		$zip = ($location->zip != null ? $location->zip : 'null');
+
+		$country_code = ($location->country_code != null ? $location->country_code : 'null');
+		$city = ($location->city != null ? $location->city : 'null');
+		$latitude = ($location->latitude != null ? $location->latitude : 'null');
+		$longitude = ($location->longitude != null ? $location->longitude : 'null');
+
+		// save country
+		$country = Countries::create([
+			'name'=>$country_name,
+			'code'=>$zip,
+			'short_name'=>$country_code
+		]);
+		// save city
+		$city = Cities::create([
+			'country_id'=>$country->id,
+			'name'=>$city
+		]);
+		// save user location
+		$userlocation = Userlocation::create([
+			'user_id'=>$request->userid,
+			'city_id'=>$city->id,
+			'latitude'=>$latitude,
+			'longitude'=>$longitude
+		]);
+		return Response::json($location);
 	}
 }
