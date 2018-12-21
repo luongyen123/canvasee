@@ -1,24 +1,34 @@
-var io = require('socket.io')(6000);
-
-console.log("Connected to port 6000");
-
-io.on("error",function(socket){
-	console.log("error");
-});
-
-io.on("connection",function(socket){
-
-	console.log("Co nguoi vua ket noi");
-
-	socket.emit("wellcome","Hello");
-});
-
+var io = require('socket.io')(6001);
 var Redis = require('ioredis');
 
 var redis= new Redis(1000);
 
-redis.on('pmessage',function(partner,chanel,message){
-	console.log(chanel);
-	console.log(message);
-	console.log(partner);
+
+io.on("connection",function(socket){
+
+	console.log("Connected");
+
+	socket.on("senChatToServer",function(message){
+		console.log(message);
+	
+		io.sockets.emit("serverChatToClient",message);
+	})
+
+	redis.psubscribe('*', function(err, count){
+
+	})
+
+	redis.on('pmessage',function(partner,chanel,message){
+		console.log(chanel);
+		// console.log(message);
+		// console.log(partner);
+		message = JSON.parse(message);
+		io.emit(chanel,message);
+		console.log('sent');
+	});
+	
 });
+
+
+
+

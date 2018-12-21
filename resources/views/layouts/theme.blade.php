@@ -14,10 +14,10 @@
   <link rel="stylesheet" href="{{asset('theme/bower_components/Ionicons/css/ionicons.min.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{asset('theme/dist/css/AdminLTE.min.css')}}">
- 
-  <link rel="stylesheet" href="{{asset('theme/dist/css/skins/skin-blue.min.css')}}">
 
-  
+  <link rel="stylesheet" href="{{asset('theme/dist/css/skins/skin-blue.min.css')}}">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css">
+
 
   <!-- Google Font -->
   <link rel="stylesheet"
@@ -266,7 +266,7 @@
     <!-- Main content -->
     <section class="content container-fluid">
 
-     
+
 
     </section>
     <!-- /.content -->

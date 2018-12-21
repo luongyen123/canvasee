@@ -23,12 +23,12 @@ class MediaController extends Controller {
 			"height" => $height,
 		)); //fomart size
 		$path1 = $path . $file_format[0] . '/' . $this->getdate() . '/';
-		$resized->toFile(public_path($path1 . $type_img . '_' . $name)); //luu file moi
+		$resized->toFile(public_path($path1 . $type_img . '_' . $name)); //save new file
 
 		$media = Media::create([
 			'filename' => $type_img . '_' . $name,
 			'mimefile' => $file_format[0],
-		]); //luu csdl
+		]); //save database
 		$id = $media->id;
 		$tmp_item['id'] = $id;
 		$tmp_item['name'] = $type_img . '_' . $name;
@@ -71,8 +71,8 @@ class MediaController extends Controller {
 		if (!empty($files)) {
 			foreach ($files as $file) {
 
-				$name = $file->getClientOriginalName(); //ten file
-				$type = $file->getMimeType(); //loại
+				$name = $file->getClientOriginalName(); //get name
+				$type = $file->getMimeType(); //get type
 				$file_format = explode('/', $type);
 
 				if ($file_format[0] == 'image') {
@@ -102,7 +102,7 @@ class MediaController extends Controller {
 					// delete image /origin
 					File::delete($path . $file_format[0] . '/' . $this->getdate() . '/origin/' . $name);
 				} else {
-					$err = '1 số file không phải ảnh';
+					$err = 'not a photo';
 				}
 			}
 
@@ -160,7 +160,7 @@ class MediaController extends Controller {
 					$item = $this->save_video($ids, $item, $name, $file_format, $type, $path);
 
 				} else {
-					$err = '1 số file không phải video';
+					$err = 'not a video';
 					continue;
 				}
 
@@ -169,7 +169,7 @@ class MediaController extends Controller {
 			if ($err != '') {
 				if (empty($item)) {
 					$data = [
-						'message' => 'file không phải video',
+						'message' => 'not a video',
 					];
 				} else {
 					$data = [

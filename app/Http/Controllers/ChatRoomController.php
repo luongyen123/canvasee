@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\ChatRoom;
 use Illuminate\Http\Request;
+use App\Events\NewMessage;
+use Response;
 
 class ChatRoomController extends Controller
 {
@@ -14,7 +16,8 @@ class ChatRoomController extends Controller
      */
     public function index()
     {
-        //
+        $messages = ChatRoom::all();
+        return view('messages',compact('messages'));
     }
 
     /**
@@ -35,7 +38,22 @@ class ChatRoomController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       
+
+        $conversation = ChatRoom::create([
+            'chat' => $request->chat,
+            'group_id' => $request->group_id,
+            'user_id' => $request->user_id,
+            // 'user_id' => auth()->user()->id,
+        ]);
+
+        event(
+            $e = new NewMessage($conversation)
+        );
+
+        return redirect()->back();
+        // return Response::json($$conversation,200);
+
     }
 
     /**
