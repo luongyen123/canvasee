@@ -44,15 +44,18 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	Route::post('/related',['uses'=>'Api\GroupController@related']);
 	//popular hastag
 	Route::get('/popular',['uses'=>'Api\FeedController@popular']);
+	//create feed
+	Route::post('creat_feed',['uses'=>'Api\FeedController@create']);
 	/*Private message url*/
 
-	Route::post('get-private-message-notifications','PrivateMessageController@getUserNotifications');
-	Route::post('get-private-messages','PrivateMessageController@getPrivateMessages');
-	Route::post('get-private-message','PrivateMessageController@getPrivateMessageById');
-	Route::post('get-private-messages-sent','PrivateMessageController@getPrivateMessageSent');
-	Route::post('sen-private-message','PrivateMessageController@sendPrivateMessage');
+	// Route::post('get-private-message-notifications','PrivateMessageController@getUserNotifications');
+	// Route::post('get-private-messages','PrivateMessageController@getPrivateMessages');
+	// Route::post('get-private-message','PrivateMessageController@getPrivateMessageById');
+	// Route::post('get-private-messages-sent','PrivateMessageController@getPrivateMessageSent');
+	// Route::post('sen-private-message','PrivateMessageController@sendPrivateMessage');
 
 });
+Route::post('/chattingroom',['uses'=>'ChatRoomController@store']);
 
 // Refesh token user login
 Route::middleware('jwt.refresh')->get('/token/refresh', 'JWTAuthController@refresh');

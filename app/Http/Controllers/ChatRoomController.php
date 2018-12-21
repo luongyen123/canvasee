@@ -4,16 +4,21 @@ namespace App\Http\Controllers;
 
 use App\ChatRoom;
 use Illuminate\Http\Request;
+use App\Events\NewMessage;
+use Response;
 
-class ChatRoomController extends Controller {
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	public function index() {
-		//
-	}
+class ChatRoomController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $messages = ChatRoom::all();
+        return view('messages',compact('messages'));
+    }
 
 	/**
 	 * Show the form for creating a new resource.
@@ -24,25 +29,30 @@ class ChatRoomController extends Controller {
 		//
 	}
 
+
 	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request) {
-		//
-		$user_id = Auth::user()->id;
-		$group_id = $request->group_id;
-		$message = $request->chat;
 
-		$reponse = [$message, $user_id, $group_id];
 
-		$redis = LRedis::connection();
+    public function store(Request $request)
+    {
+        $conversation = ChatRoom::create([
+            'chat' => $request->chat,
+            'group_id' => $request->group_id,
+            'user_id' => $request->user_id,
+            // 'user_id' => auth()->user()->id,
+        ]);
 
-		$redis->publish('message', json_encode($reponse));
+        event(
+            $e = new NewMessage($conversation)
+        );
 
-		return reponse()->json($reponse, 200);
+        return redirect()->back();
+        // return Response::json($$conversation,200);
 
 	}
 
