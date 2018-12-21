@@ -61,7 +61,7 @@ class Group extends Model {
 		$newfeed = $feed->take(2)->get();
 		if ($total == 0) {
 			return response([
-				'status' => 'dữ liệu k tồn tại',
+				'status' => 'data not found',
 			], 400);
 		} else {
 			return response([
@@ -79,7 +79,7 @@ class Group extends Model {
 		$longitude1 = $location[0]['longitude'];
 		$latitude1 = $location[0]['latitude'];
 
-		//lay group dua theo vi tri ban kinh 5 dặm
+		//get hastag base radius 5 miles
 		$longitude2 = (float)$longitude1 + 0.05619;
 		$latitude2 = (float)$latitude1  + 0.05619;
 
@@ -91,6 +91,15 @@ class Group extends Model {
 			 AND NOT EXISTS (SELECT group_members.* FROM group_members WHERE users_locations.user_id = ".$user_id.")";
 
 		$related = DB::select($sql);
-		return Response::json($related);
+
+		if (empty($related) ){
+			return response([
+				'status' => 'data not found',
+			], 400);
+		} else {
+			return response([
+				'data' => $related,
+			], 200);
+		}
 	}
 }

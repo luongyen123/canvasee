@@ -5,6 +5,7 @@ namespace App;
 use App\Feed;
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use Illuminate\Support\Facades\Response;
 
 class Feed extends Model {
 
@@ -29,6 +30,26 @@ class Feed extends Model {
 		$feed_user = DB::table('feeds')->where('user_id', $user_id)->get();
 		return $feed_user;
 	}
-	
+	//popular feed
+	public function popular($user_id)
+	{
+		$feed = Feed::select('feeds.*','groups.name')->join('groups','groups.id','feeds.group_id')->where('user_id',$user_id)
+			->orderBy('comments', 'desc')
+			->orderBy('shares', 'desc')
+			->orderBy('likes', 'desc')
+			->take(5)
+			->get();
+		$total = $feed->count();
+		if($total > 0) {
+			return Response::json([
+				'data' => $feed,
+				'total' => $total
+			],200);
+		}else {
+			return Response::json([
+				'status' => 'data not found'
+			],400);
+		}
+	}
 
 }

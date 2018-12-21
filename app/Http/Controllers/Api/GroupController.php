@@ -30,7 +30,7 @@ class GroupController extends Controller {
 		return false;
 	}
 
-	// List group user follow
+//	 List group user follow
 	public function GroupByUser() {
 
 		$user = Auth::user();
@@ -59,4 +59,5 @@ class GroupController extends Controller {
 
 		return $related;
 	}
+
 }

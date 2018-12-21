@@ -42,6 +42,8 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	Route::post('/getIP',['uses'=>'JWTAuthController@getIP']);
 	//related hastag
 	Route::post('/related',['uses'=>'Api\GroupController@related']);
+	//popular hastag
+	Route::get('/popular',['uses'=>'Api\FeedController@popular']);
 	/*Private message url*/
 
 	Route::post('get-private-message-notifications','PrivateMessageController@getUserNotifications');
