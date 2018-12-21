@@ -22,6 +22,11 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	// logout invalidate token user
 	Route::get('auth/logout', 'JWTAuthController@logout');
 
+
+	Route::post('/upload_image', [ 'uses' => 'MediaController@upload_image']);
+	Route::post('/upload_video', [ 'uses' => 'MediaController@upload_video']);
+	Route::post('upload_link', [ 'uses' => 'MediaController@upload_link']);
+
 	Route::post('/upload', ['uses' => 'JWTAuthController@upload']);
 
 	// list group by user

@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
+
+use JWTFactory;
+
 use App\Media;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
 use DB;
+
 use JWTAuth;
 use Response;
 use Validator;
@@ -59,6 +63,26 @@ class JWTAuthController extends Controller {
 		]);
 	}
 
+    public function login(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email|max:255',
+            'password'=> 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+        $credentials = $request->only('email', 'password');
+        try {
+            if (! $token = JWTAuth::attempt($credentials)) {
+                return response()->json(['error' => 'invalid_credentials'], 401);
+            }
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'could_not_create_token'], 500);
+        }
+        return response()->json(compact('token'));
+    }
+
 	public function logout() {
 		JWTAuth::invalidate();
 		return response([
@@ -66,6 +90,7 @@ class JWTAuthController extends Controller {
 			'msg' => 'Logged out Successfully.',
 		], 200);
 	}
+
 
 	public function refresh() {
 		return response([
@@ -85,7 +110,6 @@ class JWTAuthController extends Controller {
 		$ids = [];
 		if (!empty($files)) {
 			foreach ($files as $file) {
-
 				$name = $file->getClientOriginalName();
 				$type = $file->getMimeType();
 				$duoifile = explode('/', $type);
@@ -124,5 +148,10 @@ class JWTAuthController extends Controller {
 		return response::json([
 			'status' => 'success',
 		], 200);
+	}
+	public function refresh() {
+		return response([
+			'status' => 'success'
+		]);
 	}
 }
