@@ -41,11 +41,6 @@ class GroupController extends Controller {
 	public function store(Request $request) {
 
         $groups = Group::create( $request->all());
-
-        event(
-            $e = new GroupCreated($groups)
-        );
-
 		return 'true';
 	}
 

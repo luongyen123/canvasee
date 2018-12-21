@@ -38,16 +38,25 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 
 	Route::post('/chattingroom',['uses'=>'ChatRoomController@store']);
 
+	/**
+	 * Chatiing multi user, create group chat, create conversion
+	 */
+	Route::apiResource('/group_chats','GroupChatController');
+	/**
+	 * get chatiing room by hashtag
+	 */
 	/*Private message url*/
+	Route::post('groups/{group}/chatrooms',['uses'=>'ChatRoomController@store']);
 
 	// Route::post('get-private-message-notifications','PrivateMessageController@getUserNotifications');
 	// Route::post('get-private-messages','PrivateMessageController@getPrivateMessages');
 	// Route::post('get-private-message','PrivateMessageController@getPrivateMessageById');
 	// Route::post('get-private-messages-sent','PrivateMessageController@getPrivateMessageSent');
 	// Route::post('sen-private-message','PrivateMessageController@sendPrivateMessage');
+	// 
+	Route::get('groups/{group}/chatrooms',['uses'=>'ChatRoomController@index']);
 
 });
-Route::post('/chattingroom',['uses'=>'ChatRoomController@store']);
 
 // Refesh token user login
 Route::middleware('jwt.refresh')->get('/token/refresh', 'JWTAuthController@refresh');

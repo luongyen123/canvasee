@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\ChatRoom;
-use App\Group;
-use Illuminate\Http\Request;
-use App\Events\NewMessage;
-use Response;
-use Auth;
 
-class ChatRoomController extends Controller
+use Auth;
+use Illuminate\Http\Request;
+use App\GroupChat;
+
+class GroupChatController extends Controller
 {
     /**
-     * Display a listing message of chatting room
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Group $group)
+    public function index()
     {
-       return Response::json($group->chatrooms()->with('user')->latest());
+        //
     }
 
     /**
@@ -37,30 +35,31 @@ class ChatRoomController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Group $group, Request $request)
+    public function store(Request $request)
     {
-       
-        $chatroom = $group->chatrooms()->create([
-            'chat'=>$request->chat,
-            'user_id'=>Auth::id(),
-        ]);
-
-        $chatroom = ChatRoom::where('id',$chatroom->id)->with('user')->first();
+        //
         
+        $groupchat = GroupChat::create(['name'=>$request->name]);
 
-        broadcast(new NewMessage($chatroom))->toOthers();
+        $users = collect($request->users);
 
-        return Response::json($chatroom,200);
+        $users->push(Auth::id());
 
+        $groupchat->users()->attach($users);
+
+        $groupchat = GroupChat::where('id',$groupchat->id)->with('groupusers')->first();
+
+        return Response::json($groupchat,200);
+;
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\ChatRoom  $chatRoom
+     * @param  \App\GroupChat  $groupChat
      * @return \Illuminate\Http\Response
      */
-    public function show(ChatRoom $chatRoom)
+    public function show(GroupChat $groupChat)
     {
         //
     }
@@ -68,10 +67,10 @@ class ChatRoomController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\ChatRoom  $chatRoom
+     * @param  \App\GroupChat  $groupChat
      * @return \Illuminate\Http\Response
      */
-    public function edit(ChatRoom $chatRoom)
+    public function edit(GroupChat $groupChat)
     {
         //
     }
@@ -80,10 +79,10 @@ class ChatRoomController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ChatRoom  $chatRoom
+     * @param  \App\GroupChat  $groupChat
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ChatRoom $chatRoom)
+    public function update(Request $request, GroupChat $groupChat)
     {
         //
     }
@@ -91,12 +90,11 @@ class ChatRoomController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ChatRoom  $chatRoom
+     * @param  \App\GroupChat  $groupChat
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ChatRoom $chatRoom)
+    public function destroy(GroupChat $groupChat)
     {
         //
     }
-    
 }

@@ -2,23 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\ChatRoom;
-use App\Group;
+use App\Conversation;
 use Illuminate\Http\Request;
-use App\Events\NewMessage;
-use Response;
-use Auth;
 
-class ChatRoomController extends Controller
+class ConversationController extends Controller
 {
     /**
-     * Display a listing message of chatting room
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Group $group)
+    public function index()
     {
-       return Response::json($group->chatrooms()->with('user')->latest());
+        //
     }
 
     /**
@@ -37,30 +33,18 @@ class ChatRoomController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Group $group, Request $request)
+    public function store(Request $request)
     {
-       
-        $chatroom = $group->chatrooms()->create([
-            'chat'=>$request->chat,
-            'user_id'=>Auth::id(),
-        ]);
-
-        $chatroom = ChatRoom::where('id',$chatroom->id)->with('user')->first();
-        
-
-        broadcast(new NewMessage($chatroom))->toOthers();
-
-        return Response::json($chatroom,200);
-
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\ChatRoom  $chatRoom
+     * @param  \App\Conversation  $conversation
      * @return \Illuminate\Http\Response
      */
-    public function show(ChatRoom $chatRoom)
+    public function show(Conversation $conversation)
     {
         //
     }
@@ -68,10 +52,10 @@ class ChatRoomController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\ChatRoom  $chatRoom
+     * @param  \App\Conversation  $conversation
      * @return \Illuminate\Http\Response
      */
-    public function edit(ChatRoom $chatRoom)
+    public function edit(Conversation $conversation)
     {
         //
     }
@@ -80,10 +64,10 @@ class ChatRoomController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ChatRoom  $chatRoom
+     * @param  \App\Conversation  $conversation
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ChatRoom $chatRoom)
+    public function update(Request $request, Conversation $conversation)
     {
         //
     }
@@ -91,12 +75,11 @@ class ChatRoomController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ChatRoom  $chatRoom
+     * @param  \App\Conversation  $conversation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ChatRoom $chatRoom)
+    public function destroy(Conversation $conversation)
     {
         //
     }
-    
 }

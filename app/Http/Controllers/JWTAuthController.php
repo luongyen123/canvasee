@@ -81,6 +81,7 @@ class JWTAuthController extends Controller {
 		$path = 'upload/' . $user . '/';
 		$item = [];
 		$tmp_item = [];
+
 		$ids = [];
 		if (!empty($files)) {
 			foreach ($files as $file) {
@@ -108,7 +109,7 @@ class JWTAuthController extends Controller {
 				'status' => 'success',
 				'data' => $item,
 				'id_media' => $ids,
-			], 200);
+			], 200); 
 
 		} else {
 			return response([
