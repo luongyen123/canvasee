@@ -109,15 +109,6 @@ class JWTAuthController extends Controller {
 		$ids = [];
 		if (!empty($files)) {
 			foreach ($files as $file) {
-
-<<<<<<< HEAD
-    public function refresh() {
-        return response([
-            'status' => 'success'
-        ]);
-    }
-    
-=======
 				$name = $file->getClientOriginalName();
 				$type = $file->getMimeType();
 				$duoifile = explode('/', $type);
@@ -157,5 +148,9 @@ class JWTAuthController extends Controller {
 			'status' => 'success',
 		], 200);
 	}
->>>>>>> e8b028c4080a217b0b8c9cf69c0ac4341b4a4b10
+	public function refresh() {
+		return response([
+			'status' => 'success'
+		]);
+	}
 }
