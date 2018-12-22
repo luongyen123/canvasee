@@ -4,13 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
-    "content-hash": "baae4c9703182e4358dd6f9b07d7d809",
-=======
-
-    "content-hash": "fcb31e2690741ab4ee5c099f9b7087ed",
-
->>>>>>> 9ef6c8e6ff618f8d62c74cae8c392d40adf78fe3
+    "content-hash": "d8ee4ba2a90ead67f10ccc938d5b4114",
     "packages": [
         {
             "name": "alchemy/binary-driver",
@@ -929,7 +923,6 @@
                 "url"
             ],
             "time": "2018-12-04T20:46:45+00:00"
-<<<<<<< HEAD
         },
         {
             "name": "intervention/image",
@@ -1000,8 +993,6 @@
                 "watermark"
             ],
             "time": "2018-05-29T14:19:03+00:00"
-=======
->>>>>>> 812929b7f6d10747ad16ab7e4320eedd64450a1e
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -4751,62 +4742,6 @@
             "time": "2017-11-27T11:13:29+00:00"
         },
         {
-            "name": "tinify/tinify",
-            "version": "1.5.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tinify/tinify-php.git",
-                "reference": "b15d1f31d94d9b06e60251543cc918f426f0d55b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/tinify/tinify-php/zipball/b15d1f31d94d9b06e60251543cc918f426f0d55b",
-                "reference": "b15d1f31d94d9b06e60251543cc918f426f0d55b",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "ext-json": "*",
-                "lib-curl": ">=7.20.0",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.0",
-                "symfony/yaml": "~2.0"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "lib/Tinify.php",
-                    "lib/Tinify/Exception.php"
-                ],
-                "psr-4": {
-                    "Tinify\\": "lib/Tinify/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Rolf Timmermans",
-                    "email": "rolftimmermans@voormedia.com"
-                }
-            ],
-            "description": "PHP client for the Tinify API. Tinify compresses your images intelligently. Read more at https://tinify.com.",
-            "homepage": "https://tinify.com/developers",
-            "keywords": [
-                "api",
-                "compress",
-                "images",
-                "tinify",
-                "tinyjpg",
-                "tinypng"
-            ],
-            "time": "2017-07-19T12:26:04+00:00"
-        },
-        {
             "name": "tymon/jwt-auth",
             "version": "0.5.12",
             "source": {
@@ -4868,53 +4803,6 @@
                 "tymon"
             ],
             "time": "2017-06-07T21:32:02+00:00"
-        },
-        {
-            "name": "unisharp/laravel-fileapi",
-            "version": "v1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/UniSharp/laravel-fileapi.git",
-                "reference": "7f38fb73fe2b7295fb2cf508198f05b3b9dd646b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/UniSharp/laravel-fileapi/zipball/7f38fb73fe2b7295fb2cf508198f05b3b9dd646b",
-                "reference": "7f38fb73fe2b7295fb2cf508198f05b3b9dd646b",
-                "shasum": ""
-            },
-            "require": {
-                "ext-gd": "*",
-                "illuminate/support": ">=5.0.0",
-                "league/flysystem": ">=1.0",
-                "php": ">=5.5.0",
-                "symfony/http-foundation": ">=2.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Unisharp\\FileApi\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "UniSharp Ltd. (Composer Package Maintainer)",
-                    "homepage": "http://www.unisharp.com"
-                }
-            ],
-            "description": "Laravel File API - Handle Files with Laravel Storage",
-            "keywords": [
-                "api",
-                "file",
-                "fileapi",
-                "laravel",
-                "storage"
-            ],
-            "time": "2017-11-14T02:42:59+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -6070,18 +5958,6 @@
         },
         {
             "name": "phpunit/phpunit",
-<<<<<<< HEAD
-            "version": "7.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "520723129e2b3fc1dc4c0953e43c9d40e1ecb352"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/520723129e2b3fc1dc4c0953e43c9d40e1ecb352",
-                "reference": "520723129e2b3fc1dc4c0953e43c9d40e1ecb352",
-=======
             "version": "7.5.1",
             "source": {
                 "type": "git",
@@ -6092,7 +5968,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c23d78776ad415d5506e0679723cb461d71f488f",
                 "reference": "c23d78776ad415d5506e0679723cb461d71f488f",
->>>>>>> 812929b7f6d10747ad16ab7e4320eedd64450a1e
                 "shasum": ""
             },
             "require": {
@@ -6163,11 +6038,7 @@
                 "testing",
                 "xunit"
             ],
-<<<<<<< HEAD
-            "time": "2018-12-07T07:08:12+00:00"
-=======
             "time": "2018-12-12T07:20:32+00:00"
->>>>>>> 812929b7f6d10747ad16ab7e4320eedd64450a1e
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",

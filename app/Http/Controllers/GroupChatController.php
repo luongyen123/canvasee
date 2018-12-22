@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Auth;
 use Illuminate\Http\Request;
 use App\GroupChat;
+use Response;
 
 class GroupChatController extends Controller
 {
@@ -47,10 +48,11 @@ class GroupChatController extends Controller
 
         $groupchat->users()->attach($users);
 
-        $groupchat = GroupChat::where('id',$groupchat->id)->with('groupusers')->first();
+        $groupchat = GroupChat::where('id',$groupchat->id)->with('users')->first();
+
 
         return Response::json($groupchat,200);
-;
+
     }
 
     /**

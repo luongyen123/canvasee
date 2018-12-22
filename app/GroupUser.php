@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class GroupUser extends Model
 {
     //
-    protected $table = 'group_users';
+    protected $table = 'group_chat_user';
     
     protected $fillable =['group_chat_id','user_id'];
 
