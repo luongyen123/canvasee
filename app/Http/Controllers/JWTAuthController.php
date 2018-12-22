@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
+
+use JWTFactory;
+
 use App\Media;
 use App\User;
 use Auth;
@@ -108,6 +111,7 @@ class JWTAuthController extends Controller {
 		], 200);
 	}
 
+
 	public function refresh() {
 		return response([
 			'status' => 'success',
@@ -125,7 +129,6 @@ class JWTAuthController extends Controller {
 		$ids = [];
 		if (!empty($files)) {
 			foreach ($files as $file) {
-
 				$name = $file->getClientOriginalName();
 				$type = $file->getMimeType();
 				$duoifile = explode('/', $type);
@@ -166,8 +169,9 @@ class JWTAuthController extends Controller {
 		], 200);
 	}
 
-	public function getIP(Request $request) {
-		//lay ip hien tai
+	public function getIP(Request $request)
+	{
+		//get ip
 		$url = 'http://api.ipstack.com/' . $request->clientIP . '?access_key=3982a4c2a2157583fc9e8256a4ad8f97&format=1';
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -185,22 +189,23 @@ class JWTAuthController extends Controller {
 
 		// save country
 		$country = Countries::create([
-			'name'=>$country_name,
-			'code'=>$zip,
-			'short_name'=>$country_code
+			'name' => $country_name,
+			'code' => $zip,
+			'short_name' => $country_code
 		]);
 		// save city
 		$city = Cities::create([
-			'country_id'=>$country->id,
-			'name'=>$city
+			'country_id' => $country->id,
+			'name' => $city
 		]);
 		// save user location
 		$userlocation = Userlocation::create([
-			'user_id'=>$request->userid,
-			'city_id'=>$city->id,
-			'latitude'=>$latitude,
-			'longitude'=>$longitude
+			'user_id' => $request->userid,
+			'city_id' => $city->id,
+			'latitude' => $latitude,
+			'longitude' => $longitude
 		]);
 		return Response::json($location);
 	}
+
 }
