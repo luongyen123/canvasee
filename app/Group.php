@@ -4,8 +4,10 @@ namespace App;
 
 use App\Feed;
 use App\GroupMember;
-use DB;
+
+use App\ChatRoom;
 use Illuminate\Database\Eloquent\Model;
+use DB;
 use Illuminate\Support\Facades\Response;
 
 class Group extends Model {
@@ -13,12 +15,17 @@ class Group extends Model {
 	// 	return $this->hasMany('App\Topic');
 	// }
 	protected $fillable = ['id', 'name'];
+	
 	public function feeds() {
 		return $this->hasMany(Feed::class);
 	}
 
 	public function members() {
 		return $this->hasMany(GroupMember::class);
+	}
+
+	public function chatrooms(){
+		return $this->hasMany(ChatRoom::class);
 	}
 
 	public function getGroupByUser($user_id) {
@@ -69,7 +76,9 @@ class Group extends Model {
 				'total' => $total,
 			], 200);
 		}
+	
 	}
+
 //list related hasgtag
 	public function related($user_id)
 	{

@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\GroupMember;
-
+use App\ChatRoom;
 
 class User extends Authenticatable
 {
@@ -33,4 +33,7 @@ class User extends Authenticatable
         return $this->hasMany(GroupMember::class);
     }
 
+    public function chatrooms(){
+        return $this->hasMany(ChatRoom::class);
+    }
 }

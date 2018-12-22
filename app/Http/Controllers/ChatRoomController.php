@@ -3,21 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\ChatRoom;
+use App\Group;
 use Illuminate\Http\Request;
 use App\Events\NewMessage;
 use Response;
+use Auth;
 
 class ChatRoomController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing message of chatting room
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Group $group)
     {
-        $messages = ChatRoom::all();
-        return view('messages',compact('messages'));
+       return Response::json($group->chatrooms()->with('user')->latest());
     }
 
 	/**
@@ -37,22 +38,26 @@ class ChatRoomController extends Controller
 	 * @return \Illuminate\Http\Response
 	 */
 
-
-    public function store(Request $request)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Group $group, Request $request)
     {
-        $conversation = ChatRoom::create([
-            'chat' => $request->chat,
-            'group_id' => $request->group_id,
-            'user_id' => $request->user_id,
-            // 'user_id' => auth()->user()->id,
+       
+        $chatroom = $group->chatrooms()->create([
+            'chat'=>$request->chat,
+            'user_id'=>Auth::id(),
         ]);
 
-        event(
-            $e = new NewMessage($conversation)
-        );
+        $chatroom = ChatRoom::where('id',$chatroom->id)->with('user')->first();
+        
 
-        return redirect()->back();
-        // return Response::json($$conversation,200);
+        broadcast(new NewMessage($chatroom))->toOthers();
+
+        return Response::json($chatroom,200);
 
 	}
 
@@ -87,13 +92,14 @@ class ChatRoomController extends Controller
 		//
 	}
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  \App\ChatRoom  $chatRoom
-	 * @return \Illuminate\Http\Response
-	 */
-	public function destroy(ChatRoom $chatRoom) {
-		//
-	}
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\ChatRoom  $chatRoom
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(ChatRoom $chatRoom)
+    {
+        //
+    }
 }

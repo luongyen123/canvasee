@@ -10,8 +10,9 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-class NewMessage
+class NewMessage implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -20,11 +21,11 @@ class NewMessage
      *
      * @return void
      */
-    public $converstation;
+    public $chatroom;
 
     public function __construct(ChatRoom $chatroom)
     {
-        $this->converstation =$chatroom;
+        $this->chatroom =$chatroom;
     }
 
     /**
@@ -35,20 +36,20 @@ class NewMessage
     public function broadcastOn()
     {
         // return new PrivateChannel('groups.' .$this->converstation->group->id);
-        return ['groups'];
+        return new Channel('groups.' .$this->chatroom->group->id);
     }
 
     public function broadcastWith(){
         return [
-            'message'=>$this->converstation->chat,
+            'message'=>$this->chatroom->chat,
             'user'=>[
-                'id'=>$this->converstation->user->id,
-                'name'=>$this->converstation->user->name
+                'id'=>$this->chatroom->user->id,
+                'name'=>$this->chatroom->user->name
             ]
         ];
     }
 
-    public function broadcastAs(){
-        return 'message';
-    }
+    // public function broadcastAs(){
+    //     return 'message';
+    // }
 }
