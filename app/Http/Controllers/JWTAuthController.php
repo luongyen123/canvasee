@@ -220,4 +220,5 @@ class JWTAuthController extends Controller {
 		return Response::json($location);
 	}
 
+
 }

@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\GroupMember;
 use App\ChatRoom;
+use App\GroupChat;
 
 class User extends Authenticatable
 {
@@ -35,5 +36,10 @@ class User extends Authenticatable
 
     public function chatrooms(){
         return $this->hasMany(ChatRoom::class);
+    }
+
+    public function groupusers()
+    {
+        return $this->belongsToMany(GroupChat::class)->withTimestamps();
     }
 }

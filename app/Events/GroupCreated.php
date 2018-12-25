@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Group;
+use App\GroupChat;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -10,8 +10,9 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-class GroupCreated
+class GroupCreated implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -22,7 +23,7 @@ class GroupCreated
      */
     public $group;
 
-    public function __construct(Group $group)
+    public function __construct(GroupChat $group)
     {
         //
         $this->group = $group;
