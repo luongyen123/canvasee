@@ -3,7 +3,6 @@
 namespace App;
 
 use App\Group;
-use App\GroupMember;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 

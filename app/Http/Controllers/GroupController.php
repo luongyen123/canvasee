@@ -40,8 +40,14 @@ class GroupController extends Controller {
 	 */
 	public function store(Request $request) {
 
-        $groups = Group::create( $request->all());
-		return 'true';
+        try{
+            $groups = Group::create( $request->all());
+            return 'true';
+
+        } catch (\Exception $s){
+            return 'fa';
+
+        }
 	}
 
 	/**

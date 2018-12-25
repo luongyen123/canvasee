@@ -160,8 +160,8 @@ trait MediaClass{
 					$item = $this->save_video($ids, $item, $name, $file_format, $type, $path);
 
 				} else {
-					$err = 'not a video';
-					continue;
+					$err = 'not a video ';
+//					continue;
 				}
 
 			}
@@ -169,7 +169,8 @@ trait MediaClass{
 			if ($err != '') {
 				if (empty($item)) {
 					$data = [
-						'message' => 'not a video',
+						'message' => $err,
+                        'data'=>[]
 					];
 				} else {
 					$data = [
@@ -189,6 +190,7 @@ trait MediaClass{
 		} else {
 			return response([
 				'status' => 'false',
+                'data' =>''
 			], 400);
 		}
 	}

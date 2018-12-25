@@ -51,9 +51,10 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	//popular hastag
 	Route::get('/popular',['uses'=>'Api\FeedController@popular']);
 	//create feed
-	Route::post('creat_feed',['uses'=>'Api\FeedController@create']);
+	Route::post('create_feed',['uses'=>'Api\FeedController@create']);
 
-
+    // comment feed
+    Route::post('comment_feed',['uses'=>'Api\FeedController@comment_feed']);
 	/**
 	 * Chatiing multi user, create group chat, create conversion
 	 */

@@ -17,6 +17,7 @@ use App\Userlocation;
 use App\Cities;
 use  App\Countries;
 
+
 class JWTAuthController extends Controller {
 	public function register(Request $request) {
 		$clientIP = \Request::getClientIp(true);
@@ -164,10 +165,20 @@ class JWTAuthController extends Controller {
 	public function change_password(Request $request) {
 		$user_id = Auth::user()->id;
 		$password = bcrypt($request->password);
-		DB::table('users')->where('id', $user_id)->update(['password' => $password]);
-		return response::json([
-			'status' => 'success',
-		], 200);
+		try {
+             DB::table('users')->where('id', $user_id)->update(['password' => $password]);
+            $user = DB::table('users')->select('name','id','email')->where('id', $user_id)->get();
+            return response::json([
+                'action' =>'change_password',
+                'status' => '200',
+                'data'=>$user
+            ], 200);
+        } catch(\Exception $err){
+            return Response::json([
+                'status' => 500,
+                'message'=>$err->getMessage()
+            ]);
+        }
 	}
 
 	public function getIP(Request $request)

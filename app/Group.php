@@ -68,10 +68,12 @@ class Group extends Model {
 		$newfeed = $feed->take(2)->get();
 		if ($total == 0) {
 			return response([
+                'action' =>'/newfeed',
 				'status' => 'data not found',
 			], 400);
 		} else {
 			return response([
+                'action' => '/newfeed',
 				'data' => $newfeed,
 				'total' => $total,
 			], 200);
@@ -82,33 +84,43 @@ class Group extends Model {
 //list related hasgtag
 	public function related($user_id)
 	{
-		$location = Userlocation::select('latitude','longitude')->where('user_id',$user_id)->get();
-		$location = json_decode($location,true);
+	    try {
+            $location = Userlocation::select('latitude', 'longitude')->where('user_id', $user_id)->get();
+            $location = json_decode($location, true);
+            $longitude1 = $location[0]['longitude'];
+            $latitude1 = $location[0]['latitude'];
 
-		$longitude1 = $location[0]['longitude'];
-		$latitude1 = $location[0]['latitude'];
+            //get hastag base radius 5 miles
+            $longitude2 = (float)$longitude1 + 0.05619;
+            $latitude2 = (float)$latitude1 + 0.05619;
 
-		//get hastag base radius 5 miles
-		$longitude2 = (float)$longitude1 + 0.05619;
-		$latitude2 = (float)$latitude1  + 0.05619;
+            $sql = "SELECT groups.name ,users_locations.latitude, users_locations.longitude,users_locations.user_id
+                 FROM group_members JOIN groups ON group_members.group_id = groups.id
+                 JOIN users_locations ON users_locations.user_id = group_members.user_id
+                 WHERE users_locations.latitude BETWEEN " . $latitude1 . " AND " . $latitude2 . "
+                    and users_locations.longitude BETWEEN " . $longitude1 . " and " . $longitude2 . "
+                 AND NOT EXISTS (SELECT group_members.* FROM group_members WHERE users_locations.user_id = " . $user_id . ")";
+            $related = DB::select($sql);
 
-		$sql = "SELECT groups.name ,users_locations.latitude, users_locations.longitude,users_locations.user_id
-			 FROM group_members JOIN groups ON group_members.group_id = groups.id
-			 JOIN users_locations ON users_locations.user_id = group_members.user_id
-			 WHERE users_locations.latitude BETWEEN ".$latitude1." AND ".$latitude2."
-			  	and users_locations.longitude BETWEEN ".$longitude1." and ".$longitude2."
-			 AND NOT EXISTS (SELECT group_members.* FROM group_members WHERE users_locations.user_id = ".$user_id.")";
-
-		$related = DB::select($sql);
-
-		if (empty($related) ){
-			return response([
-				'status' => 'data not found',
-			], 400);
-		} else {
-			return response([
-				'data' => $related,
-			], 200);
-		}
+            if (empty($related)) {
+                return response([
+                    'action' =>'/related',
+                    'message' => 'data not found',
+                    'status' => 404
+                ], 404);
+            } else {
+                return response([
+                    'action' =>'/related',
+                    'status' =>200,
+                    'data' => $related,
+                ], 200);
+            }
+        } catch (\Exception $err){
+            return response([
+                'action' =>'/related',
+                'message' => 'data not found',
+                'status' => 404
+            ], 404);
+        }
 	}
 }
