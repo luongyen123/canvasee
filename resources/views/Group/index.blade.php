@@ -47,7 +47,7 @@
               <tr>
                 <td>{{$value->name}}</td>
                 <td>{{$value->feeds->count()}}</td>
-                <td>{{$value->members->count()}}</td>
+{{--                <td>{{$value->members->count()}}</td>--}}
                 <td><a href="{{route('feeds.index',$value->id)}}">Feeds</a></td>
                 <td><a href="{{route('members.index',$value->id)}}">Follwing</a></td>
                 <td>

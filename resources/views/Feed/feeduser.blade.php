@@ -36,22 +36,21 @@
                 <th>Shares</th>
                 <th>Comments</th>
                 <th>Notifications</th>
-                <th>Medias</th>
+                {{--<th>Medias</th>--}}
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
                @foreach($feeduser as $value)
-
               <tr>
                 <td>{{$value->id}}</td>
                 <td>{{$value->title}}</td>
                 <td>{{$value->content}}</td>
-                <td>{{$value->likes}}</td>
+                <td>{{$value->like->count()}}</td>
                 <td>{{$value->shares}}</td>
-                <td>{{$value->comments}}</td>
+                <td>{{$value->comment->count()}}</td>
                 <td>{{$value->notifications}}</td>
-                <td>{{$value->medias}}</td>
+                {{--<td>{{$value->medias}}</td>--}}
 
                 <td>
                   <a  class="btn btn-success" href="{{route('feeds.destroy',$value->id)}}"><i class="fa fa-times"></i></a>

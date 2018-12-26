@@ -163,14 +163,23 @@ class JWTAuthController extends Controller {
 		}
 	}
 	public function change_password(Request $request) {
+
 		$user_id = Auth::user()->id;
 		$password = bcrypt($request->password);
 		try {
-             DB::table('users')->where('id', $user_id)->update(['password' => $password]);
+            $validator = Validator::make($request->all(), [
+                'password' => 'string|min:6',
+            ]);
+            if ($validator->fails()) {
+                return response()->json($validator->errors());
+            }
+
+            DB::table('users')->where('id', $user_id)->update(['password' => $password]);
             $user = DB::table('users')->select('name','id','email')->where('id', $user_id)->get();
             return response::json([
                 'action' =>'change_password',
                 'status' => '200',
+                'message'=>'update success',
                 'data'=>$user
             ], 200);
         } catch(\Exception $err){
@@ -220,5 +229,11 @@ class JWTAuthController extends Controller {
 		return Response::json($location);
 	}
 
+    public function edit_profile(Request $req)
+    {
+        $user_id = Auth::user()->id;
+        $user = (new User)->edit_profile($user_id,$req);
+        return $user;
 
+    }
 }

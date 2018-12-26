@@ -38,4 +38,5 @@ class GroupMember extends Model {
 		return view('GroupMember.index', compact('member', 'idgroup', 'group', 'user'));
 	}
 
+
 }

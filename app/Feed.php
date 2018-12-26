@@ -3,8 +3,11 @@
 namespace App;
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\MediaClass;
+use App\Likes;
+
 class Feed extends Model {
 	use MediaClass;
 	protected $fillable = ['id', 'title', 'content', 'media_image','media_video','media_link', 'user_id', 'group_id'];
@@ -12,7 +15,12 @@ class Feed extends Model {
 	public function group() {
 		return $this->belongsTo(Group::class);
 	}
-
+    public function comment() {
+        return $this->hasMany(Comments::class);
+    }
+    public function like() {
+        return $this->hasMany(Likes::class);
+    }
 // feed by group
 	public function feedsgruop($idgroup) {
 		$feeds = Feed::join('groups', 'feeds.group_id', '=', 'groups.id')
@@ -25,7 +33,7 @@ class Feed extends Model {
 
 //  feed by user
 	public function feeduser($user_id) {
-		$feed_user = DB::table('feeds')->where('user_id', $user_id)->get();
+		$feed_user = Feed::where('user_id', $user_id)->get();
 		return $feed_user;
 	}
 	//popular feed
@@ -156,5 +164,12 @@ class Feed extends Model {
             ]);
         }
 	}
+
+	//check like feed
+    public function checklike($feed_id,$user_id)
+    {
+        return Likes::where('feed_id',$feed_id)->where('user_id', $user_id)
+            ->first();
+    }
 
 }

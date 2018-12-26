@@ -9,6 +9,9 @@ class Comments extends Model
 {
     protected $fillable =['id','user_id','content','feed_id'];
 
+    public function feed() {
+        return $this->belongsTo(Feed::class);
+    }
     //create comment
     public function create_cmt($request,$user_id){
         try{

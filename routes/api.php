@@ -73,6 +73,11 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 	// 
 	Route::get('groups/{group}/chatrooms',['uses'=>'ChatRoomController@index']);
 
+	// edit profile
+    Route::post('edit_profile',['uses'=>'JWTAuthController@edit_profile']);
+    //like feed
+    Route::post('like_feed',['uses'=>'Api\FeedController@like']);
+
 });
 
 // Refesh token user login
